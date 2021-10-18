@@ -1,11 +1,13 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { Exclude } from 'class-transformer';
 
 export class User {
+  @Exclude({ toPlainOnly: true })
   id: number;
 
   @IsNotEmpty({
     message: (validationArguments) => {
-      return returnErrorMessage(validationArguments.targetName);
+      return returnErrorMessage(validationArguments.property);
     },
   })
   @IsString()
@@ -13,7 +15,7 @@ export class User {
 
   @IsNotEmpty({
     message: (validationArguments) => {
-      return returnErrorMessage(validationArguments.targetName);
+      return returnErrorMessage(validationArguments.property);
     },
   })
   @IsString()
@@ -21,7 +23,7 @@ export class User {
 
   @IsNotEmpty({
     message: (validationArguments) => {
-      return returnErrorMessage(validationArguments.targetName);
+      return returnErrorMessage(validationArguments.property);
     },
   })
   @IsString()
@@ -29,12 +31,13 @@ export class User {
 
   @IsNotEmpty({
     message: (validationArguments) => {
-      return returnErrorMessage(validationArguments.targetName);
+      return returnErrorMessage(validationArguments.property);
     },
   })
   @IsEmail()
   email: string;
 
+  @Exclude({ toPlainOnly: true })
   @IsNotEmpty()
   password: string;
 
