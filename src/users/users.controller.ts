@@ -1,6 +1,17 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus, NotFoundException,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
 import UsersService from './users.service';
 import { User } from './users.entity';
+
+import { NestResponse } from '../core/http/nest.response';
+import { NestResponseBuilder } from '../core/http/nest.response-builder';
 
 @Controller('users')
 export class UsersController {
@@ -8,8 +19,12 @@ export class UsersController {
   }
 
   @Post()
-  public create(@Body() user: User) {
-    return this.userService.create(user);
+  public create(@Body() user: User, @Res() res): NestResponseBuilder {
+    const createdUser = this.userService.create(user);
+    return new NestResponseBuilder()
+      .status(HttpStatus.CREATED)
+      .headers('location', `/users/${createdUser.firstName}`)
+      .body(createdUser);
   }
 
   @Get(':userName')
